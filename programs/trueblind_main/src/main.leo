@@ -9,8 +9,7 @@ program trueblind_main.aleo {
     }
 
     struct Comment {
-        cid_head: u8,
-        cid: [u128; 10],
+        cid: u128,
         nationality: u8,
     }
 
@@ -43,14 +42,9 @@ program trueblind_main.aleo {
     }
 
     finalize comment(cid: u128, cid_comment: u128, nationality: u8) {
-        let get: Comment = Mapping::get_or_use(comments, cid, Comment {
-            cid_head: 0u8,
-            cid: [0u128,0u128,0u128,0u128,0u128,0u128,0u128,0u128,0u128,0u128],
-            nationality: 0u8,
+        Mapping::set(comments, cid, Comment {
+            cid: cid,
+            nationality: nationality,
         });
-
-        let comment_head: u8 = get.cid_head;
-        assert_neq(comment_head, 10u8);
-        
     }
 }
