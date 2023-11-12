@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Comments = ({ threadId }) => {
+const Comments = ({ threadId, threadCategory }) => {
     const navigate = useNavigate();
 
     const handleAddComment = () => {
-        navigate(`/${threadId}/replies`);
+        navigate(`/${threadId}/${threadCategory}/replies`);
     };
 
     return (

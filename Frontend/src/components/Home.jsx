@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Nav from "./Nav";
 import Comments from "../utils/Comments";
 import { create } from 'ipfs-http-client'
-import { Buffer } from 'buffer'
 
 const Home = () => {
     const projectId = "2Y3P4fHevOjxYIoleyUr3mS86qZ";
@@ -20,23 +19,38 @@ const Home = () => {
 
     const [thread, setThread] = useState("");
     const [threadDescription, setThreadDescription] = useState("");
-    const [threadList, setThreadList] = useState([
-        // {
-        //     category: "a",
-        //     cid: "QmZFDewS8exT85zGonYQCuwujJDhTKShLHbXrazaTVsCdD",
-        // }
-        // {
-        //     "title": "Is Crypto Currently In Hiring Freeze?",
-        //     "category": "Korean",
-        //     "id": "fakecid1",
-        // },
-        // {
-        //     "title": "how's your day",
-        //     "category": "Chinese",
-        //     "replies": ["a", "b", "c"],
-        //     "id": "fakecid2",
-        // }
-    ]);
+    const [threadList, setThreadList] = useState([]);
+    
+    useEffect(() => {
+        
+        const fetchAllThreads = async () => {
+            let temp_threadList = [];
+            //TODO Fetch all Categories
+            let Categories = ["Korean", "Chinese"] 
+            //TODO Fetch all CIDs
+            let CIDs = ["QmZFDewS8exT85zGonYQCuwujJDhTKShLHbXrazaTVsCdD", "QmRk8KaEWR4trD6B56ag2r1paTL989fCJefkJB1mnemzfm", "QmQ6hKXo6XPzN7a43R175ANsoQqp7XsUT7VXVrXbto7BVS"]
+            let i = 0;
+            while (i < CIDs.length) {
+                await fetch("https://ipfs.io/ipfs/" + CIDs[i])
+                    .then((response) => response.json())
+                    .then((json) => {
+                        console.log(json);
+                        console.log(i, Categories[i]);
+                        temp_threadList.push({
+                            title: json.title,
+                            description: json.description,
+                            category: Categories[i],
+                            CID: CIDs[i],
+                        });
+                    });
+                i++;
+            }
+            console.log(temp_threadList);
+            setThreadList(temp_threadList);
+            
+        };
+        fetchAllThreads();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -58,44 +72,6 @@ const Home = () => {
         setThread("");
         setThreadDescription("");
     };
-    
-    useEffect(() => {
-        
-        const fetchAllThreads = async () => {
-            let temp_threadList = [];
-            //TODO Fetch all Categories
-            let Categories = ["Korean", "Chinese"] 
-            //TODO Fetch all CIDs
-            let CIDs = ["QmZFDewS8exT85zGonYQCuwujJDhTKShLHbXrazaTVsCdD", "QmRk8KaEWR4trD6B56ag2r1paTL989fCJefkJB1mnemzfm", "QmQ6hKXo6XPzN7a43R175ANsoQqp7XsUT7VXVrXbto7BVS"]
-            let i = 0;
-            while (i < CIDs.length) {
-                await fetch("https://ipfs.io/ipfs/" + CIDs[i])
-                    .then((response) => response.json())
-                    .then((json) => {
-                        console.log(json);
-                        console.log(i, Categories[i]);
-                        temp_threadList.push({
-                            title: json.title,
-                            description: json.description,
-                            category: Categories[i],
-                            id: CIDs[i],
-                        });
-                    });
-                i++;
-            }
-            console.log(temp_threadList);
-            setThreadList(temp_threadList);
-            
-        };
-        fetchAllThreads();
-        // setThreadList(threadList => [...threadList, {
-        //     title: json.title,
-        //     description: json.description,
-        //     category: Categories[i],
-        //     id: CIDs[i]
-        // }]);
-        // setThreadList([...threadList, temp_threadList]);
-    }, []);
 
     return (
         <>
@@ -126,16 +102,15 @@ const Home = () => {
 
                 <div className='thread__container'>
                     {threadList.map((thread) => (
-                        <div className='thread__item' key={thread.id}>
+                        <div className='thread__item' key={thread.CID}>
                             <p>{thread.title}</p>
                             {/* <p>{thread.description}</p> */}
                             <div className='react__container'>
-                                {/* <Likes numberOfLikes={thread.likes.length} threadId={thread.id} /> */}
                                 <p style={{ opacity: "0.5" }}>by {thread.category}</p>
                                 <Comments
-                                    // numberOfComments={thread.replies.length}
-                                    threadId={thread.id}
-                                    title={thread.title}
+                                    threadId={thread.CID}
+                                    threadCategory={thread.category}
+                                    // title={thread.title}
                                 />
                             </div>
                         </div>
