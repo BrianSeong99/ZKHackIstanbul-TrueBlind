@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import Nav from "./Nav";
 import Comments from "../utils/Comments";
 import { create } from 'ipfs-http-client'
+import { AleoWorker } from "../workers/AleoWorker.js";
 
 const Home = () => {
     const projectId = "2Y3P4fHevOjxYIoleyUr3mS86qZ";
     const projectSecretKey = "0edcafbacf80fd6608c4014f0d26a1c2";
     const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
-
+    const aleoWorker = AleoWorker();
     const client = create({
         host: 'ipfs.infura.io',
         port: 5001,
@@ -17,9 +18,11 @@ const Home = () => {
         }
       })
 
+    const [account, setAccount] = useState(null);
     const [thread, setThread] = useState("");
     const [threadDescription, setThreadDescription] = useState("");
     const [threadList, setThreadList] = useState([]);
+    const [privateKey, setPrivateKey] = useState([]);
     
     useEffect(() => {
         
@@ -28,7 +31,7 @@ const Home = () => {
             //TODO Fetch all Categories
             let Categories = ["Korean", "Chinese"] 
             //TODO Fetch all CIDs
-            let CIDs = ["QmZFDewS8exT85zGonYQCuwujJDhTKShLHbXrazaTVsCdD", "QmRk8KaEWR4trD6B56ag2r1paTL989fCJefkJB1mnemzfm", "QmQ6hKXo6XPzN7a43R175ANsoQqp7XsUT7VXVrXbto7BVS"]
+            let CIDs = ["QmZFDewS8exT85zGonYQCuwujJDhTKShLHbXrazaTVsCdD", "QmRk8KaEWR4trD6B56ag2r1paTL989fCJefkJB1mnemzfm", "QmQ6hKXo6XPzN7a43R175ANsoQqp7XsUT7VXVrXbto7BVS", "QmbYLjEjTh1serYJ9uEqgVjK1oLfWJ2NT7ifPY7LnpMxRf"]
             let i = 0;
             while (i < CIDs.length) {
                 await fetch("https://ipfs.io/ipfs/" + CIDs[i])
@@ -73,11 +76,31 @@ const Home = () => {
         setThreadDescription("");
     };
 
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        console.log({ privateKey });
+        setAccount(privateKey);
+        console.log(account);
+    };
+
     return (
         <>
             <Nav />
             <main className='home'>
                 <h2 className='homeTitle'>Create a Thread</h2>
+                <form className='homeForm' onSubmit={handleLogin}>
+                    <div className='home__container'>
+                        <label htmlFor='thread'>Private Key</label>
+                        <input
+                            type='text'
+                            name='thread'
+                            required
+                            value={privateKey}
+                            onChange={(e) => setPrivateKey(e.target.value)}
+                        />
+                    </div>
+                    <button className='homeBtn'>Login</button>
+                </form>
                 <form className='homeForm' onSubmit={handleSubmit}>
                     <div className='home__container'>
                         <label htmlFor='thread'>Title</label>
