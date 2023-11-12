@@ -66,4 +66,4 @@ finalize make_comment:
 function hash_cid:
     input r0 as Cid.private;
     hash.psd2 r0 into r1 as field;
-    output r1 as field.private;
+    output r1 as field.public;
