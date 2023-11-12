@@ -3,6 +3,8 @@ import Nav from "./Nav";
 import Comments from "../utils/Comments";
 import { create } from 'ipfs-http-client'
 import { AleoWorker } from "../workers/AleoWorker.js";
+import { splitStringToBigInts, joinBigIntsToString } from "../utils/bigintString.js";
+import trueblind_main_program from "../../../programs/trueblind_main/build/main.aleo?raw";
 
 const Home = () => {
     const projectId = "2Y3P4fHevOjxYIoleyUr3mS86qZ";
@@ -23,6 +25,9 @@ const Home = () => {
     const [threadDescription, setThreadDescription] = useState("");
     const [threadList, setThreadList] = useState([]);
     const [privateKey, setPrivateKey] = useState([]);
+    const [record, setRecord] = useState([]);
+    const [passRecord, setPassRecord] = useState([]);
+    const [executing, setExecuting] = useState(false);
     
     useEffect(() => {
         
@@ -68,7 +73,20 @@ const Home = () => {
             const added = await client.add(objectString);
             const threadCID = added.path;
             console.log(threadCID);
-            // TODO: Call Create Post on Leo with CID and zPass
+            let cid_splits = splitStringToBigInts(threadCID);
+            console.log("cidsplits", cid_splits, cid_splits.length);
+            setExecuting(true);
+            console.log("jere");
+            let cid_json = "{cid1: " + cid_splits[0] + ", cid2: " + cid_splits[1] + ", cid3: " + cid_splits[2] + "}";
+            console.log("jere2");
+            console.log("before create post",[cid_json, passRecord]);
+            const result = await aleoWorker.localProgramExecution(
+                trueblind_main_program,
+                "create_post",
+                [cid_json, passRecord],
+            );
+            alert(JSON.stringify(result));
+            setExecuting(false);
           } catch (error) {
             console.log('Error uploading file: ', error)
           } 
@@ -80,7 +98,8 @@ const Home = () => {
         e.preventDefault();
         console.log({ privateKey });
         setAccount(privateKey);
-        console.log(account);
+        setPassRecord(record);
+        alert("User signed in!");
     };
 
     return (
@@ -97,6 +116,14 @@ const Home = () => {
                             required
                             value={privateKey}
                             onChange={(e) => setPrivateKey(e.target.value)}
+                        />
+                        <label htmlFor='thread'>Pass Record</label>
+                        <input
+                            type='text'
+                            name='thread'
+                            required
+                            value={record}
+                            onChange={(e) => setRecord(e.target.value)}
                         />
                     </div>
                     <button className='homeBtn'>Login</button>

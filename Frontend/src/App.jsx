@@ -51,7 +51,7 @@ export default App;
 //     setExecuting(false);
 
 //     alert(JSON.stringify(result));
-//   }
+//   } 
 
 //   async function deploy() {
 //     setDeploying(true);
