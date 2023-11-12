@@ -11,7 +11,7 @@ program trueblind_issuer.aleo {
     }
 
     transition issue_pass(requester: address, nationality: u8) -> Pass {
-        assert_eq(self.caller, aleo158m35rhjzjaejtxhgkrrlu222qlzs706fnkgzlxuyua2wf94qgzs8twkv5);
+        assert_eq(self.caller, aleo1fjmx66zrmfxx288udrw93re4x9xvxkuszwuegmf78prt3shc2yrscf6shw);
         return Pass {
             owner: requester,
             nationality: nationality,
