@@ -5,6 +5,7 @@ program trueblind_main.aleo;
 struct Cid:
     cid1 as u128;
     cid2 as u128;
+    cid3 as u128;
 
 struct Post:
     cid as Cid;
