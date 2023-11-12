@@ -54,7 +54,7 @@ program trueblind_main.aleo {
         });
     }
 
-    transition hash_cid(cid: Cid) -> field {
+    transition hash_cid(cid: Cid) -> public field {
         return Poseidon2::hash_to_field(cid);
     }
 }
