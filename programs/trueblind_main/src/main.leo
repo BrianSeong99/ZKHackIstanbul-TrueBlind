@@ -6,6 +6,7 @@ program trueblind_main.aleo {
     struct Cid {
         cid1: u128,
         cid2: u128,
+        cid3: u128,
     }
 
     struct Post {

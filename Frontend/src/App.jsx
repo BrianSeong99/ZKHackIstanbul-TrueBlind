@@ -46,7 +46,7 @@ export default App;
 //     const result = await aleoWorker.localProgramExecution(
 //       helloworld_program,
 //       "main",
-//       ["5u32", "5u32"],
+//       ["5u32, "5u32"],
 //     );
 //     setExecuting(false);
 
