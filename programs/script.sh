@@ -10,6 +10,7 @@
 #      View Key  AViewKey1etkQbHePLByd9VqxLwey99nn6GHU8Xi13MT6y6MxYGpz
 #       Address  aleo1fjmx66zrmfxx288udrw93re4x9xvxkuszwuegmf78prt3shc2yrscf6shw
 
+# Pass Record "{  owner: aleo1fjmx66zrmfxx288udrw93re4x9xvxkuszwuegmf78prt3shc2yrscf6shw.private,  name: 1111111u128.private,  age: 20u8.private,  nationality: 1u8.private,  _nonce: 4746758516422828262819327371928705613007259893121133802018370263842418912370group.public}"
 
 echo "============Deploying==============="
 snarkos developer deploy --private-key APrivateKey1zkpBjpEgLo4arVUkQmcLdKQMiAKGaHAQVVwmF8HQby8vdYs --query http://localhost:3030 --priority-fee 1 trueblind_issuer.aleo --broadcast http://localhost:3030/testnet3/transaction/broadcast --path ./trueblind_issuer/build/

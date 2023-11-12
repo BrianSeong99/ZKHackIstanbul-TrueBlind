@@ -76,9 +76,7 @@ const Home = () => {
             let cid_splits = splitStringToBigInts(threadCID);
             console.log("cidsplits", cid_splits, cid_splits.length);
             setExecuting(true);
-            console.log("jere");
             let cid_json = "{cid1: " + cid_splits[0] + ", cid2: " + cid_splits[1] + ", cid3: " + cid_splits[2] + "}";
-            console.log("jere2");
             console.log("before create post",[cid_json, passRecord]);
             const result = await aleoWorker.localProgramExecution(
                 trueblind_main_program,
@@ -90,8 +88,8 @@ const Home = () => {
           } catch (error) {
             console.log('Error uploading file: ', error)
           } 
-        setThread("");
-        setThreadDescription("");
+        // setThread("");
+        // setThreadDescription("");
     };
 
     const handleLogin = async (e) => {
