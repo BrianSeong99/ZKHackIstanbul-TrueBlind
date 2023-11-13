@@ -1,8 +1,8 @@
-# True Blind 
+# True Blind
 
-Project Link: https://devfolio.co/projects/trueblind-d3ad
-
-Winner of 2023 Devconnect ZK Hack Aleo Track.
+<b><u>Winner of 2023 Devconnect ZK Hack Aleo Track</u></b>
+- Project Submission Link: https://devfolio.co/projects/trueblind-d3ad
+- Project Demo Link: https://www.youtube.com/watch?v=RNbgUYqctZA
 
 ## Introduction
 
